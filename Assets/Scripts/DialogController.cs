@@ -51,6 +51,7 @@ public class DialogController : MonoBehaviour
 
     void OpenDialog(string[] textToRun)
     {
+        Debug.Log("OPENING DIALOG");
         _currentDialog = textToRun;
 
         _currentDialogIndex = 0;

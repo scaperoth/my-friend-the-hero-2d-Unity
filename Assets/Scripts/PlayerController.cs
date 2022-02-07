@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     Animator _animator;
+    [SerializeField]
+    GameObject _interactionIndicator;
+
     bool _showInteraction;
     string interactingWith;
 
@@ -28,21 +31,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Interactable"))
         {
             interactingWith = collision.gameObject.name;
             _showInteraction = true;
+            _interactionIndicator.SetActive(true);
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
 
         if (collision.gameObject.CompareTag("Interactable"))
         {
             _showInteraction = false;
+            _interactionIndicator.SetActive(false);
         }
     }
 }
