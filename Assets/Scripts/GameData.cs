@@ -26,7 +26,7 @@ public static class GameData
 {
     public static bool DialogOpen = false;
     static string Quest1Name = "Talk to people in town";
-    static Quest CurrentQuest;
+    public static Quest CurrentQuest;
     public static List<Quest> Quests = new List<Quest>();
 
     public static UnityEvent<string[]> OnDialogOpen = new UnityEvent<string[]>();
@@ -34,6 +34,7 @@ public static class GameData
     public static UnityEvent OnDialogClose = new UnityEvent();
 
     public static UnityEvent<Quest> OnQuestStarted = new UnityEvent<Quest>();
+    public static UnityEvent<Quest> OnQuestUpdated = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestComplete = new UnityEvent<Quest>();
 
     static GameData()
@@ -116,7 +117,7 @@ public static class GameData
     public static void UpdateQuest1Progress()
     {
         CurrentQuest.progress++;
-        Debug.Log($"CurrentQuest: {CurrentQuest.progress}/{CurrentQuest.success}");
+        OnQuestUpdated.Invoke(CurrentQuest);
         if (CurrentQuest.progress == CurrentQuest.success)
         {
             CurrentQuest.active = false;

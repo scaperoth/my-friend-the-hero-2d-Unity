@@ -16,8 +16,6 @@ public class HeroController : MonoBehaviour
     Transform _transform;
     string currentPathName = "";
 
-    bool _moving = false;
-    Transform _moveTarget;
     private void Start()
     {
         _transform = transform;
