@@ -36,12 +36,9 @@ public class DialogController : MonoBehaviour
         if (Input.anyKeyDown)
         {
             _currentDialogIndex++;
-            if(_currentDialogIndex > _currentDialog.Length - 1)
+            if (_currentDialogIndex > _currentDialog.Length - 1)
             {
-                _dialogPanel.SetActive(false);
-                _currentDialogIndex = 0;
-                _currentDialog = null;
-                GameData.OnDialogClose.Invoke();
+                CloseDialog();
                 return;
             }
 
@@ -51,11 +48,23 @@ public class DialogController : MonoBehaviour
 
     void OpenDialog(string[] textToRun)
     {
-        Debug.Log("OPENING DIALOG");
-        _currentDialog = textToRun;
-
         _currentDialogIndex = 0;
         _textMesh.text = textToRun[_currentDialogIndex];
         _dialogPanel.SetActive(true);
+        StartCoroutine(WaitForNextFrameToEnableDialog(textToRun));   
+    }
+
+    IEnumerator WaitForNextFrameToEnableDialog(string[] textToRun)
+    {
+        yield return new WaitForEndOfFrame();
+        _currentDialog = textToRun;
+    }
+
+    void CloseDialog()
+    {
+        _dialogPanel.SetActive(false);
+        _currentDialogIndex = 0;
+        _currentDialog = null;
+        GameData.OnDialogClose.Invoke();
     }
 }

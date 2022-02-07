@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     {
         if (GameData.DialogOpen)
         {
+            _animator.SetFloat("SpeedX", 0);
+            _animator.SetFloat("SpeedY", 0);
             return;
         }
 

@@ -10,6 +10,7 @@ public class Quest
     public int progress;
     public int success;
     public Dictionary<string, string[]> customCharacterDialogs;
+    public Dictionary<string, bool> charactersSpokenTo;
 
     public Quest(string _name, int _progress, int _success)
     {
@@ -17,7 +18,7 @@ public class Quest
         progress = _progress;
         success = _success;
         customCharacterDialogs = new Dictionary<string, string[]>();
-    }
+        charactersSpokenTo = new Dictionary<string, bool>();
 }
 
 public static class GameData
@@ -33,6 +34,12 @@ public static class GameData
 
     public static UnityEvent<Quest> OnQuestStarted = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestComplete = new UnityEvent<Quest>();
+
+    static GameData()
+    {
+        OnDialogClose.AddListener(HandleDialogClosed);
+        OnDialogOpen.AddListener(HandleDialogOpen);
+    }
 
     public static bool StartQuest1()
     {
@@ -54,8 +61,6 @@ public static class GameData
         Quests.Add(CurrentQuest);
         OnQuestStarted.Invoke(CurrentQuest);
         OnDialogOpen.Invoke(introTextString);
-        DialogOpen = true;
-        OnDialogClose.AddListener(HandleDialogClosed);
 
         CurrentQuest.customCharacterDialogs.Add("Fisherman", new string[]{
             "Fisherman: Oh, come on you dang fish...",
@@ -66,15 +71,17 @@ public static class GameData
             "You: That's a lie. People always fight Hiro, but he doesn't fight back!",
             "Fisherman: Whatever you say, kid. Someone that big is bound to cause trouble and I won't stand for it. Now, get away from me."
         });
+        CurrentQuest.charactersSpokenTo.Add("Fisherman", false);
 
         CurrentQuest.customCharacterDialogs.Add("Gardener", new string[]{
-            "You: Hey, Gran Gran. How are you?",
+            "You: Hey, Gardener. How are you?",
             "Gardener: Oh, darling, so good to see you! I'm doing very well, thank you! Have you seen my trees? Bigger than Hiro, those are!",
             "You: Yeah, they're growing really well.",
             "Gardener: Speaking of your friend, what's he been up to? Causing trouble? Hehe. I remember when I was your age... Oh the trouble I got into...",
             "You: Hiro doesn't cause trouble. He attracts it.",
             "Gardener: Oh, what a boisterous defense for a friend! Your a good one, you. Stay safe out there!"
         });
+        CurrentQuest.charactersSpokenTo.Add("Gardener", false);
 
         CurrentQuest.customCharacterDialogs.Add("Guard", new string[]{
             "Guard: HALT! Where do you think you're going?!",
@@ -87,6 +94,7 @@ public static class GameData
             "You: *under breath* what a doof...",
             "Guard: I heard that."
         });
+        CurrentQuest.charactersSpokenTo.Add("Guard", false);
 
         CurrentQuest.customCharacterDialogs.Add("Shopaholic", new string[]{
             "Shopaholic: Hey, what you got what you need? They've got everything in there. Usually. They're closed!",
@@ -99,6 +107,7 @@ public static class GameData
             "Shopaholic: Ugh, get outta here, you don't even care. You wouldn't know a deal if it hit you in the face.",
             "Shopaholic: You should have Hiro slap some sense into you. Oven mitt like that might knock a few things loose."
         });
+        CurrentQuest.charactersSpokenTo.Add("Shopaholic", false);
 
         return true;
     }
@@ -109,17 +118,23 @@ public static class GameData
         if(CurrentQuest.progress == CurrentQuest.success)
         {
             CurrentQuest.active = false;
-            Debug.Log($"Quests: {Quests[0].active}");
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
         }
+
+        Debug.Log($"CurrentQuest: {CurrentQuest.progress}/{CurrentQuest.success}");
     }
 
     public static void HandleDialogClosed()
     {
         DialogOpen = false;
-        OnDialogClose.RemoveListener(HandleDialogClosed);
     }
+
+    public static void HandleDialogOpen(string[] dialog)
+    {
+        DialogOpen = true;
+    }
+
 
     public static void StartCharacterDialog(string characterName)
     {
@@ -130,8 +145,13 @@ public static class GameData
         else
         {
             string[] dialog = CurrentQuest.customCharacterDialogs[characterName];
+            bool spokeToThisCharacter = CurrentQuest.charactersSpokenTo[characterName];
+            if (!spokeToThisCharacter)
+            {
+                CurrentQuest.charactersSpokenTo[characterName] = true;
+                UpdateQuest1Progress();
+            }
             OnDialogOpen.Invoke(dialog);
-            CurrentQuest.progress++;
         }
     }
 }
