@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 1166200773776786842}
   - component: {fileID: 2177988612614538473}
   - component: {fileID: 2134184291420760340}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,8 +163,8 @@ MonoBehaviour:
   - {fileID: 4924053845179660541}
   - {fileID: 8429057912295199219}
   m_Bounds:
-    m_Center: {x: 0.00032433867, y: -0.0010860264, z: 0}
-    m_Extent: {x: 0.2644751, y: 0.44227597, z: 0}
+    m_Center: {x: 0.00032445788, y: -0.0010852814, z: 0}
+    m_Extent: {x: 0.26447517, y: 0.44227523, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &2031806726700887573
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4998586420689551454}
   - component: {fileID: 6764762394001358347}
   - component: {fileID: 4901037992157826569}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ MonoBehaviour:
   - {fileID: 4115285447836403684}
   - {fileID: 2975806331055016139}
   m_Bounds:
-    m_Center: {x: -0.00025513768, y: -0.00022509694, z: 0}
+    m_Center: {x: -0.00025475025, y: -0.00022533536, z: 0}
     m_Extent: {x: 0.24938497, y: 0.30422503, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 3409952957845425088}
   - component: {fileID: 5558645498337067209}
   - component: {fileID: 3376164642780829020}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,8 +433,8 @@ MonoBehaviour:
   - {fileID: 5236029558142409753}
   - {fileID: 2054792100606733415}
   m_Bounds:
-    m_Center: {x: 0.23327981, y: -0.0018554628, z: 0}
-    m_Extent: {x: 0.3688398, y: 0.4881345, z: 0}
+    m_Center: {x: 0.23327981, y: -0.0018547475, z: 0}
+    m_Extent: {x: 0.36883986, y: 0.48813474, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &2621819151851032077
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 4830450911445832395}
   - component: {fileID: 6065873260537695084}
   - component: {fileID: 479167935239484147}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,8 +537,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 2975806331055016139}
   m_Bounds:
-    m_Center: {x: 0.0015547872, y: -0.025465012, z: 0}
-    m_Extent: {x: 0.65844524, y: 0.9145352, z: 0}
+    m_Center: {x: 0.0015550256, y: -0.025464833, z: 0}
+    m_Extent: {x: 0.6584453, y: 0.9145353, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &3267137770619582625
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 1748384351328004504}
   - component: {fileID: 326458513841023237}
   - component: {fileID: 140574217641352136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,8 +763,8 @@ MonoBehaviour:
   - {fileID: 4205277614647903640}
   - {fileID: 5751023309926854058}
   m_Bounds:
-    m_Center: {x: -0.00037944317, y: 0.00000035762787, z: 0}
-    m_Extent: {x: 0.6659502, y: 0.61499965, z: 0}
+    m_Center: {x: -0.00037926435, y: -0.000000059604645, z: 0}
+    m_Extent: {x: 0.6659501, y: 0.615, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6930167897486427080
@@ -869,7 +869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7811555024886752224}
   - component: {fileID: 7811555024886752227}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 1006081492002610251}
   - component: {fileID: 2899636907792766622}
   - component: {fileID: 4818158033706531377}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1041,8 +1041,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 4913535135220290356}
   m_Bounds:
-    m_Center: {x: 0.00016912818, y: -0.002245009, z: 0}
-    m_Extent: {x: 0.25973004, y: 0.287755, z: 0}
+    m_Center: {x: 0.00016951561, y: -0.0022450387, z: 0}
+    m_Extent: {x: 0.25972998, y: 0.28775495, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &8724389097323081265

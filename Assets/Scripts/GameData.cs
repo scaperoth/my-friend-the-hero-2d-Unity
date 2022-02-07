@@ -19,6 +19,7 @@ public class Quest
         success = _success;
         customCharacterDialogs = new Dictionary<string, string[]>();
         charactersSpokenTo = new Dictionary<string, bool>();
+    }
 }
 
 public static class GameData
@@ -115,14 +116,14 @@ public static class GameData
     public static void UpdateQuest1Progress()
     {
         CurrentQuest.progress++;
-        if(CurrentQuest.progress == CurrentQuest.success)
+        Debug.Log($"CurrentQuest: {CurrentQuest.progress}/{CurrentQuest.success}");
+        if (CurrentQuest.progress == CurrentQuest.success)
         {
             CurrentQuest.active = false;
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
         }
 
-        Debug.Log($"CurrentQuest: {CurrentQuest.progress}/{CurrentQuest.success}");
     }
 
     public static void HandleDialogClosed()
