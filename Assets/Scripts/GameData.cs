@@ -89,8 +89,15 @@ public static class GameData
         });
 
         CurrentQuest.customCharacterDialogs.Add("Shopaholic", new string[]{
-            "Shopaholic: HALT! Where do you think you're going?!",
-            "You: Just out for a walk. Calm down, guardsman."
+            "Shopaholic: Hey, what you got what you need? They've got everything in there. Usually. They're closed!",
+            "You: Woah, slow down. What are you talking about?",
+            "Shopaholic: What am i... What am I talking about?!",
+            "Shopaholic: THE SHOP!",
+            "Shopaholic: It's closed!",
+            "Shopaholic: How in the world am I supposed too return my blender for a hat and my shoes for a blender now?!",
+            "You: You want to do what?",
+            "Shopaholic: Ugh, get outta here, you don't even care. You wouldn't know a deal if it hit you in the face.",
+            "Shopaholic: You should have Hiro slap some sense into you. Oven mitt like that might knock a few things loose."
         });
 
         return true;
@@ -114,15 +121,17 @@ public static class GameData
         OnDialogClose.RemoveListener(HandleDialogClosed);
     }
 
-    static void GetCharacterDialog(string characterName)
+    public static void StartCharacterDialog(string characterName)
     {
         if(CurrentQuest == null)
         {
-
+            return;
         }
         else
         {
-
+            string[] dialog = CurrentQuest.customCharacterDialogs[characterName];
+            OnDialogOpen.Invoke(dialog);
+            CurrentQuest.progress++;
         }
     }
 }
