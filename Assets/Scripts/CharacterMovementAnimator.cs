@@ -7,7 +7,7 @@ public class CharacterMovementAnimator : MonoBehaviour
     [SerializeField]
     float _speed = 5;
     Transform _animatorTransform;
-    CharacterController _characterController;
+    CharacterController2D _characterController;
 
     bool _facingRight = false;
 
@@ -15,7 +15,7 @@ public class CharacterMovementAnimator : MonoBehaviour
     void Start()
     {
         _animatorTransform = _animator.transform;
-        _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController2D>();
     }
 
     // Update is called once per frame
@@ -23,9 +23,9 @@ public class CharacterMovementAnimator : MonoBehaviour
     {
         Vector3 input = new Vector3(_animator.GetFloat("SpeedX"), _animator.GetFloat("SpeedY"), 0f);
 
-        TryFlipSprite(input);
+        //TryFlipSprite(input);
 
-        _characterController.Move(input * Time.deltaTime * _speed);
+        _characterController.Move(input * _speed);
     }
 
     void TryFlipSprite(Vector3 input)
