@@ -9,6 +9,7 @@ public class Quest
     public string name;
     public int progress;
     public int success;
+
     public Dictionary<string, string[]> customCharacterDialogs;
     public Dictionary<string, bool> charactersSpokenTo;
 
@@ -26,7 +27,11 @@ public class Quest
 public static class GameData
 {
     public static bool DialogOpen = false;
+
+    // quests
     static string Quest1Name = "Talk to people in town";
+    static string Quest2Name = "Kill the forest monsters";
+
     public static Quest CurrentQuest;
     public static List<Quest> Quests = new List<Quest>();
 
@@ -43,9 +48,6 @@ public static class GameData
 
     static GameData()
     {
-        OnDialogClose.AddListener(HandleDialogClosed);
-        OnDialogOpen.AddListener(HandleDialogOpen);
-
         DefaultCharacterDialog.Add("Fisherman", new string[] { "Fisherman: Go away, kid." });
         DefaultCharacterDialog.Add("Gardener", new string[] { "Gardener: ... *singsong* La di da di diiiii..." });
         DefaultCharacterDialog.Add("Guard", new string[] { "Guard: All is well, son." });
@@ -70,7 +72,7 @@ public static class GameData
 
         CurrentQuest = new Quest(Quest1Name, 0, 1);
         Quests.Add(CurrentQuest);
-        OnDialogOpen.Invoke(introTextString);
+        OpenDialog(introTextString);
 
         CurrentQuest.customCharacterDialogs.Add("Fisherman", new string[]{
             "Fisherman: Oh, come on you dang fish...",
@@ -126,6 +128,30 @@ public static class GameData
         return true;
     }
 
+    public static bool StartQuest2()
+    {
+        string[] introTextString = new string[]
+        {
+            "Hiro: Ok, so let me fill you in on what's going on.",
+            "Hiro: It turned out exactly as I feared. The mayor wants me to go \"Kill some monsters in the forest\"",
+            "You: That makes sense. Everyone in town believes you are the only one who can do it.",
+            "Hiro: But I can't! I don't know how to fight. Please help me!",
+            "You: Oh, alright. It'll be just like when we were kids."
+        };
+
+        CurrentQuest = new Quest(Quest2Name, 0, 10);
+        Quests.Add(CurrentQuest);
+        CurrentQuest.customCharacterDialogs.Add("Hiro", introTextString);
+
+        return true;
+    }
+
+    public static void OpenDialog(string[] text)
+    {
+        DialogOpen = true;
+        OnDialogOpen.Invoke(text);
+    }
+
     public static void UpdateQuest1Progress()
     {
         CurrentQuest.progress++;
@@ -136,24 +162,26 @@ public static class GameData
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
         }
-
     }
 
-    public static void HandleDialogClosed()
+    public static void CloseDialog()
     {
-        Debug.Log("DIALOG CLOSED!");
         if(CurrentQuest != null && CurrentQuest.active == false)
         {
             CurrentQuest.active = true;
             OnQuestStarted.Invoke(CurrentQuest);
+
+            if(CurrentQuest.name == Quest2Name)
+            {
+                CurrentQuest.customCharacterDialogs["Hiro"] = new string[]
+                {
+                    "Hiro: Let's go take out those monsters...I guess?",
+                };
+            }
         }
         CurrentActiveDialogCharacter = null;
         DialogOpen = false;
-    }
-
-    public static void HandleDialogOpen(string[] dialog)
-    {
-        DialogOpen = true;
+        OnDialogClose.Invoke();
     }
 
     public static void StartCharacterDialog(string characterName)
@@ -163,7 +191,7 @@ public static class GameData
         if (CurrentQuest == null)
         {
             dialog = DefaultCharacterDialog[characterName];
-            OnDialogOpen.Invoke(dialog);
+            OpenDialog(dialog);
         }
         else
         {
@@ -171,7 +199,7 @@ public static class GameData
 
             if (hasDialog)
             {
-                OnDialogOpen.Invoke(dialog);
+                OpenDialog(dialog);
 
                 bool spokeToThisCharacter;
                 bool exists = CurrentQuest.charactersSpokenTo.TryGetValue(characterName, out spokeToThisCharacter);
@@ -184,7 +212,7 @@ public static class GameData
             else
             {
                 dialog = DefaultCharacterDialog[characterName];
-                OnDialogOpen.Invoke(dialog);
+                OpenDialog(dialog);
             }
         }
     }

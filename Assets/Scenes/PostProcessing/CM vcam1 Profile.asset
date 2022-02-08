@@ -21,13 +21,13 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 0, g: 0, b: 0, a: 0.36078432}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.2
+    value: 0.213
   smoothness:
     overrideState: 1
     value: 0.858
@@ -62,13 +62,13 @@ MonoBehaviour:
     value: 0
   focusDistance:
     overrideState: 1
-    value: 10
+    value: 1.86
   aperture:
     overrideState: 1
-    value: 7.8
+    value: 1.1
   focalLength:
     overrideState: 1
-    value: 82
+    value: 1
   kernelSize:
     overrideState: 1
     value: 0
@@ -106,13 +106,13 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 5.18
+    value: 0
   threshold:
     overrideState: 1
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.519
   clamp:
     overrideState: 1
     value: 65472

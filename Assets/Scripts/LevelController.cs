@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
@@ -17,11 +18,16 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GameData.CurrentQuest != null )
+        {
+            StartQuest(GameData.CurrentQuest);
+        }
+
         GameData.OnQuestComplete.AddListener(HideQuestBox);
         GameData.OnQuestUpdated.AddListener(UpdateQuest);
         GameData.OnQuestStarted.AddListener(StartQuest);
 
-        if (GameData.Quests.Count == 0)
+        if (GameData.Quests.Count == 0 && SceneManager.GetActiveScene().buildIndex == 0)
         {
             GameData.StartQuest1();
         }

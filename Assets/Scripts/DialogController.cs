@@ -65,6 +65,6 @@ public class DialogController : MonoBehaviour
         _dialogPanel.SetActive(false);
         _currentDialogIndex = 0;
         _currentDialog = null;
-        GameData.OnDialogClose.Invoke();
+        GameData.CloseDialog();
     }
 }

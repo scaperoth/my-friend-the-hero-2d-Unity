@@ -60,6 +60,10 @@ public class HeroController : MonoBehaviour
             {
                 currentPathName = "";
                 _animator.gameObject.SetActive(false);
+            }else if (currentPathName == "MayorToHome")
+            {
+                currentPathName = "";
+                GameData.StartQuest2();
             }
             return;
         }
@@ -95,7 +99,7 @@ public class HeroController : MonoBehaviour
         _animator.gameObject.SetActive(true);
 
         GameData.CurrentActiveDialogCharacter = gameObject.name;
-        GameData.OnDialogOpen.Invoke(new string[] {
+        GameData.OpenDialog(new string[] {
             "Hiro: Hey, meet me at the house, let's talk."
         });
         GameData.DefaultCharacterDialog[gameObject.name] = new string[] { "Hiro: Meet me at the house so we can talk" };
