@@ -63,7 +63,7 @@ public static class GameData
             "You: The mayor?! What for?",
             "Hiro: I don't know. I think it has something to do with those monsters in the forest.",
             "You: Oh...That's weird. You are a terrible fighter...",
-            "Hiro: $#^%! I know! It's probably just because I'm bigger than everyone else. I hate being typecast. I'm a gental soul, man.",
+            "Hiro: $#^%! I know! It's probably just because I'm bigger than everyone else. I hate being typecast. I'm a gentle soul, man.",
             "You: Yeah. Well, you better go see what they want.",
             "Hiro: Alright, fine. Why don't you hang out around town while I'm gone.",
         };
@@ -132,7 +132,6 @@ public static class GameData
         OnQuestUpdated.Invoke(CurrentQuest);
         if (CurrentQuest.progress == CurrentQuest.success)
         {
-            Debug.Log("QUEST COMPLETED!");
             CurrentQuest.active = false;
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
@@ -142,11 +141,10 @@ public static class GameData
 
     public static void HandleDialogClosed()
     {
+        Debug.Log("DIALOG CLOSED!");
         if(CurrentQuest != null && CurrentQuest.active == false)
         {
-            Debug.Log($"SHARED REFERENCE: {Quests[0].active}");
             CurrentQuest.active = true;
-            Debug.Log($"SHARED REFERENCE: {Quests[0].active}");
             OnQuestStarted.Invoke(CurrentQuest);
         }
         CurrentActiveDialogCharacter = null;
@@ -173,6 +171,8 @@ public static class GameData
 
             if (hasDialog)
             {
+                OnDialogOpen.Invoke(dialog);
+
                 bool spokeToThisCharacter;
                 bool exists = CurrentQuest.charactersSpokenTo.TryGetValue(characterName, out spokeToThisCharacter);
                 if (exists && !spokeToThisCharacter && CurrentQuest.name == Quest1Name)
@@ -180,7 +180,6 @@ public static class GameData
                     CurrentQuest.charactersSpokenTo[characterName] = true;
                     UpdateQuest1Progress();
                 }
-                OnDialogOpen.Invoke(dialog);
             }
             else
             {

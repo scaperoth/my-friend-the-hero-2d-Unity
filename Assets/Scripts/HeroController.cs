@@ -11,7 +11,6 @@ public class HeroController : MonoBehaviour
     Transform[] _homeToMayorNavPoionts;
     [SerializeField]
     Transform[] _mayorToHomeNavPoints;
-    GameObject _displayChild;
 
     Transform[] _currentPath;
     int _currentPoint = 0;
@@ -86,13 +85,18 @@ public class HeroController : MonoBehaviour
 
     IEnumerator ShowAfterAFewSeconds()
     {
+        while (GameData.DialogOpen)
+        {
+            yield return null;
+        }
+
         yield return new WaitForSeconds(2f);
 
         _animator.gameObject.SetActive(true);
 
         GameData.CurrentActiveDialogCharacter = gameObject.name;
         GameData.OnDialogOpen.Invoke(new string[] {
-            "Hiro: Hey, man! Meet me at the house, let's talk"
+            "Hiro: Hey, meet me at the house, let's talk."
         });
         GameData.DefaultCharacterDialog[gameObject.name] = new string[] { "Hiro: Meet me at the house so we can talk" };
 
