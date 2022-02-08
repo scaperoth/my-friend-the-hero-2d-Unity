@@ -71,10 +71,6 @@ public static class GameData
             "Hiro: Alright, fine. Why don't you hang out around town while I'm gone.",
         };
 
-        CurrentQuest = new Quest(Quest1Name, 0, 1);
-        Quests.Add(CurrentQuest);
-        OpenDialog(introTextString);
-
         CurrentQuest.customCharacterDialogs.Add("Fisherman", new string[]{
             "Fisherman: Oh, come on you dang fish...",
             "Fisherman: Woah! What's wrong with you sneaking up on a fisherman like that. You should be ashamed.",
@@ -125,6 +121,10 @@ public static class GameData
         CurrentQuest.customCharacterDialogs.Add("Hiro", new string[] {
             "Hiro: Hey, I can't talk right now...*sigh*"
         });
+
+        CurrentQuest = new Quest(Quest1Name, 0, 4);
+        Quests.Add(CurrentQuest);
+        OpenDialog(introTextString);
 
         return true;
     }
