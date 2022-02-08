@@ -84,7 +84,7 @@ public class HeroController : MonoBehaviour
         _animator.SetFloat("SpeedX", input.x);
         _animator.SetFloat("SpeedY", input.y);
 
-        if (Vector3.Distance(_transform.position, _currentPath[_currentPoint].position) < 0.5f)
+        if (Vector3.Distance(_transform.position, _currentPath[_currentPoint].position) < 0.1f)
         {
             _currentPoint++;
         }

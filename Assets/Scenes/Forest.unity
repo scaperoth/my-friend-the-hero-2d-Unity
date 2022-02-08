@@ -58570,7 +58570,7 @@ MonoBehaviour:
   m_FocusTracking: 0
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
-  m_Profile: {fileID: 11400000, guid: dd7237c3299294e8aac92e38bd7c7df1, type: 2}
+  m_Profile: {fileID: 11400000, guid: 13e2dc0df75dd4f989544fdfdd6739f2, type: 2}
 --- !u!114 &95073981777050300
 MonoBehaviour:
   m_ObjectHideFlags: 0
