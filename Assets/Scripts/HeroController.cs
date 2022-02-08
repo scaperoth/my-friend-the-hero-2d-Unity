@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HeroController : MonoBehaviour
 {
@@ -21,6 +22,13 @@ public class HeroController : MonoBehaviour
     {
         _transform = transform;
         GameData.OnQuestComplete.AddListener(HandleQuestComplete);
+
+        if (SceneManager.GetActiveScene().name == "HomeTown" && GameData.PreviousScene == null)
+        {
+            _animator.SetFloat("SpeedX", 1);
+            _animator.SetFloat("SpeedY", 0);
+            _transform.localPosition = new Vector3(3.29f, -8.67f, 0);
+        }
     }
 
     private void OnDisable()
@@ -39,6 +47,8 @@ public class HeroController : MonoBehaviour
     {
         if (_currentPath == null)
         {
+            _animator.SetFloat("SpeedX", 0);
+            _animator.SetFloat("SpeedY", 0);
             return;
         }
 
@@ -60,7 +70,8 @@ public class HeroController : MonoBehaviour
             {
                 currentPathName = "";
                 _animator.gameObject.SetActive(false);
-            }else if (currentPathName == "MayorToHome")
+            }
+            else if (currentPathName == "MayorToHome")
             {
                 currentPathName = "";
                 GameData.StartQuest2();
@@ -81,7 +92,7 @@ public class HeroController : MonoBehaviour
 
     void HandleQuestComplete(Quest quest)
     {
-        if(quest.name == GameData.Quests[0].name)
+        if (quest.name == GameData.Quests[0].name)
         {
             StartCoroutine(ShowAfterAFewSeconds());
         }

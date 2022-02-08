@@ -27,7 +27,7 @@ public class LevelController : MonoBehaviour
         GameData.OnQuestUpdated.AddListener(UpdateQuest);
         GameData.OnQuestStarted.AddListener(StartQuest);
 
-        if (GameData.Quests.Count == 0 && SceneManager.GetActiveScene().buildIndex == 0)
+        if (GameData.Quests.Count == 0 && SceneManager.GetActiveScene().name == "HomeTown")
         {
             GameData.StartQuest1();
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class PlayerController : MonoBehaviour
 
     bool _showInteraction;
     string interactingWith;
+
+    private void Start()
+    {
+        if(SceneManager.GetActiveScene().name == "HomeTown" && GameData.PreviousScene == null)
+        {
+            transform.localPosition = new Vector3(5.29f, -8.87f, 0);
+        }
+    }
 
     // Update is called once per frame
     void Update()

@@ -18,7 +18,7 @@ public class ExitTriggerController : MonoBehaviour
 
             if (GameData.Quests.Count >= 2)
             {
-                SceneManager.LoadScene("Forest");
+                LoadScene("Forest");
             }
             else
             {
@@ -29,8 +29,14 @@ public class ExitTriggerController : MonoBehaviour
         }
         else if (sceneName == "Forest")
         {
-            SceneManager.LoadScene("HomeTown");
+            LoadScene("HomeTown");
         }
+    }
+
+    void LoadScene(string sceneName)
+    {
+        GameData.PreviousScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneName);
     }
 
 }

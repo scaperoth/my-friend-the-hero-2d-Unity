@@ -27,6 +27,7 @@ public class Quest
 public static class GameData
 {
     public static bool DialogOpen = false;
+    public static string PreviousScene;
 
     // quests
     static string Quest1Name = "Talk to people in town";
