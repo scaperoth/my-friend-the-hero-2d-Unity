@@ -36,11 +36,17 @@ public static class GameData
     public static UnityEvent<Quest> OnQuestStarted = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestUpdated = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestComplete = new UnityEvent<Quest>();
+    static Dictionary<string, string[]> _defaultCharacterDialog = new Dictionary<string, string[]>();
 
     static GameData()
     {
         OnDialogClose.AddListener(HandleDialogClosed);
         OnDialogOpen.AddListener(HandleDialogOpen);
+
+        _defaultCharacterDialog.Add("Fisherman", new string[] { "" });
+        _defaultCharacterDialog.Add("Gardener", new string[] { "" });
+        _defaultCharacterDialog.Add("Guard", new string[] { "" });
+        _defaultCharacterDialog.Add("Shopaholic", new string[] { "" });
     }
 
     public static bool StartQuest1()
@@ -53,12 +59,12 @@ public static class GameData
             "You: The mayor?! What for?",
             "Hiro: I don't know. I think it has something to do with those monsters in the forest.",
             "You: Oh...That's weird. You are a terrible fighter...",
-            "Hiro: $#^%! I know! It's probably just because I'm bigger than everyone else. I hate being typecast. I'm a gental soul, man",
+            "Hiro: $#^%! I know! It's probably just because I'm bigger than everyone else. I hate being typecast. I'm a gental soul, man.",
             "You: Yeah. Well, you better go see what they want.",
             "Hiro: Alright, fine. Why don't you hang out around town while I'm gone.",
         };
 
-        
+
         CurrentQuest = new Quest(Quest1Name, 0, 4);
         Quests.Add(CurrentQuest);
         OnQuestStarted.Invoke(CurrentQuest);
@@ -81,7 +87,7 @@ public static class GameData
             "You: Yeah, they're growing really well.",
             "Gardener: Speaking of your friend, what's he been up to? Causing trouble? Hehe. I remember when I was your age... Oh the trouble I got into...",
             "You: Hiro doesn't cause trouble. He attracts it.",
-            "Gardener: Oh, what a boisterous defense for a friend! Your a good one, you. Stay safe out there!"
+            "Gardener: Oh, what a boisterous defense for a friend! You're a good one, you. Stay safe out there!"
         });
         CurrentQuest.charactersSpokenTo.Add("Gardener", false);
 
@@ -140,20 +146,32 @@ public static class GameData
 
     public static void StartCharacterDialog(string characterName)
     {
-        if(CurrentQuest == null)
+        string[] dialog;
+        if (CurrentQuest == null)
         {
-            return;
+            dialog = CurrentQuest.customCharacterDialogs[characterName];
+            OnDialogOpen.Invoke(dialog);
         }
         else
         {
-            string[] dialog = CurrentQuest.customCharacterDialogs[characterName];
-            bool spokeToThisCharacter = CurrentQuest.charactersSpokenTo[characterName];
-            if (!spokeToThisCharacter)
+            bool hasDialog = CurrentQuest.customCharacterDialogs.TryGetValue(characterName, out dialog);
+
+            if (hasDialog)
             {
-                CurrentQuest.charactersSpokenTo[characterName] = true;
-                UpdateQuest1Progress();
+                bool spokeToThisCharacter = CurrentQuest.charactersSpokenTo[characterName];
+                if (!spokeToThisCharacter && CurrentQuest.name == Quest1Name)
+                {
+                    CurrentQuest.charactersSpokenTo[characterName] = true;
+                    UpdateQuest1Progress();
+                }
+                OnDialogOpen.Invoke(dialog);
             }
-            OnDialogOpen.Invoke(dialog);
+            else
+            {
+                dialog = CurrentQuest.customCharacterDialogs[characterName];
+                OnDialogOpen.Invoke(dialog);
+            }
         }
+
     }
 }

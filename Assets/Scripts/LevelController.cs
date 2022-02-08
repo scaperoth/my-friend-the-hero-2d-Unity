@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
@@ -41,14 +42,12 @@ public class LevelController : MonoBehaviour
         _questTitle.text = $"Quest: {quest.name}";
         _questProgress.text = $"Progress: {quest.progress}/{quest.success}";
         _questBox.SetActive(true);
+        StartCoroutine(EaseInQuestBox());
     }
 
     void HideQuestBox(Quest quest)
     {
-        _questBox.SetActive(false);
-        _questTitle.text = $"Quest: None";
-        _questProgress.text = $"Progress: 0/0";
-        GameData.OnQuestStarted.RemoveListener(ShowQuestBox);
+        StartCoroutine(EaseOutQuestBox());
         GameData.OnQuestComplete.RemoveListener(HideQuestBox);
         GameData.OnQuestUpdated.RemoveListener(UpdateQuest);
     }
@@ -56,5 +55,43 @@ public class LevelController : MonoBehaviour
     void UpdateQuest(Quest quest)
     {
         _questProgress.text = $"Progress: {quest.progress}/{quest.success}";
+    }
+
+    IEnumerator EaseInQuestBox()
+    {
+        RectTransform rect = _questBox.GetComponent<RectTransform>();
+        Vector3 start = rect.anchoredPosition;
+        Vector3 target = new Vector3(0, start.y, start.z);
+        float animationTime = .5f;
+        float currentTime = 0;
+        float normalizedValue;
+
+        while (currentTime <= animationTime)
+        {
+            currentTime += Time.deltaTime;
+            normalizedValue = currentTime / animationTime;
+            Vector3 newPosition = Vector3.Lerp(start, target, normalizedValue);
+            rect.anchoredPosition = newPosition;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator EaseOutQuestBox()
+    {
+        RectTransform rect = _questBox.GetComponent<RectTransform>();
+        Vector3 start = rect.anchoredPosition;
+        Vector3 target = new Vector3(rect.sizeDelta.x, start.y, start.z);
+        float animationTime = .5f;
+        float currentTime = 0;
+        float normalizedValue;
+
+        while (currentTime <= animationTime)
+        {
+            currentTime += Time.deltaTime;
+            normalizedValue = currentTime / animationTime;
+            Vector3 newPosition = Vector3.Lerp(start, target, normalizedValue);
+            rect.anchoredPosition = newPosition;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

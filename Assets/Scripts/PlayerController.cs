@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         if(_showInteraction && Input.GetButtonDown("Jump"))
         {
             GameData.StartCharacterDialog(interactingWith);
+            GameData.UpdateQuest1Progress();
         }
     }
 
