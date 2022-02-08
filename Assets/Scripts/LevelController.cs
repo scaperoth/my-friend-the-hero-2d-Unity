@@ -17,24 +17,30 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameData.OnQuestComplete.AddListener(HideQuestBox);
+        GameData.OnQuestUpdated.AddListener(UpdateQuest);
+        GameData.OnQuestStarted.AddListener(StartQuest);
+
         if (GameData.Quests.Count == 0)
         {
-            GameData.OnQuestComplete.AddListener(HideQuestBox);
-            GameData.OnQuestUpdated.AddListener(UpdateQuest);
-
             GameData.StartQuest1();
-            GameData.OnDialogClose.AddListener(StartQuest1);
         }
     }
     private void OnDisable()
     {
-        GameData.OnDialogClose.RemoveListener(OnQuest1Started.Invoke);
+        GameData.OnQuestStarted.RemoveListener(StartQuest);
+        GameData.OnQuestComplete.RemoveListener(HideQuestBox);
+        GameData.OnQuestUpdated.RemoveListener(UpdateQuest);
     }
 
-    void StartQuest1()
+    void StartQuest(Quest quest)
     {
-        ShowQuestBox(GameData.CurrentQuest);
-        OnQuest1Started.Invoke();
+        ShowQuestBox(quest);
+
+        if (GameData.Quests[0].name == quest.name)
+        {
+            OnQuest1Started.Invoke();
+        }
     }
 
     void ShowQuestBox(Quest quest)
@@ -48,8 +54,6 @@ public class LevelController : MonoBehaviour
     void HideQuestBox(Quest quest)
     {
         StartCoroutine(EaseOutQuestBox());
-        GameData.OnQuestComplete.RemoveListener(HideQuestBox);
-        GameData.OnQuestUpdated.RemoveListener(UpdateQuest);
     }
 
     void UpdateQuest(Quest quest)

@@ -2126,6 +2126,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &461619427 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5811596721737055962, guid: ddcf19a9c429e4511bc86bc5877f818a,
+    type: 3}
+  m_PrefabInstance: {fileID: 95073980860708469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &491278259
 GameObject:
   m_ObjectHideFlags: 0
@@ -5871,7 +5877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1009394914
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5890,7 +5896,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -250, y: 0}
+  m_AnchoredPosition: {x: 250, y: 0}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1009394915
@@ -20465,6 +20471,7 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _characterController: {fileID: 0}
   _homeToMayorNavPoionts: []
+  _mayorToHomeNavPoints: []
 --- !u!4 &1331092096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4974951227192309526, guid: ddcf19a9c429e4511bc86bc5877f818a,
@@ -21755,6 +21762,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e65c0597c0c462980f72ead608848e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1496509652
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496509644}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
 --- !u!1 &1540478456
 GameObject:
   m_ObjectHideFlags: 0
@@ -25421,8 +25444,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1406970145729614887, guid: ddcf19a9c429e4511bc86bc5877f818a,
         type: 3}
+      propertyPath: m_Name
+      value: Hiro
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406970145729614887, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406970145729614887, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Interactable
       objectReference: {fileID: 0}
     - target: {fileID: 1453170682618000145, guid: ddcf19a9c429e4511bc86bc5877f818a,
         type: 3}
@@ -25441,9 +25474,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2694255536865891110, guid: ddcf19a9c429e4511bc86bc5877f818a,
         type: 3}
+      propertyPath: _mayorToHomeNavPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694255536865891110, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
       propertyPath: _homeToMayorNavPoionts.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2694255536865891110, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
+      propertyPath: _mayorToHomeNavPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1221063050}
+    - target: {fileID: 2694255536865891110, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
+      propertyPath: _mayorToHomeNavPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 2131553125}
     - target: {fileID: 2694255536865891110, guid: ddcf19a9c429e4511bc86bc5877f818a,
         type: 3}
       propertyPath: _homeToMayorNavPoionts.Array.data[0]
@@ -25604,6 +25652,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7052217632547428967, guid: ddcf19a9c429e4511bc86bc5877f818a,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 461619427}
     - target: {fileID: 7052217632547428967, guid: ddcf19a9c429e4511bc86bc5877f818a,
         type: 3}
       propertyPath: _interactionIndicator

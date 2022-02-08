@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Quest
 {
-    public bool active = true;
+    public bool active = false;
     public string name;
     public int progress;
     public int success;
@@ -17,6 +17,7 @@ public class Quest
         name = _name;
         progress = _progress;
         success = _success;
+        active = false;
         customCharacterDialogs = new Dictionary<string, string[]>();
         charactersSpokenTo = new Dictionary<string, bool>();
     }
@@ -36,17 +37,20 @@ public static class GameData
     public static UnityEvent<Quest> OnQuestStarted = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestUpdated = new UnityEvent<Quest>();
     public static UnityEvent<Quest> OnQuestComplete = new UnityEvent<Quest>();
-    static Dictionary<string, string[]> _defaultCharacterDialog = new Dictionary<string, string[]>();
+    public static Dictionary<string, string[]> DefaultCharacterDialog = new Dictionary<string, string[]>();
+
+    static public string CurrentActiveDialogCharacter;
 
     static GameData()
     {
         OnDialogClose.AddListener(HandleDialogClosed);
         OnDialogOpen.AddListener(HandleDialogOpen);
 
-        _defaultCharacterDialog.Add("Fisherman", new string[] { "" });
-        _defaultCharacterDialog.Add("Gardener", new string[] { "" });
-        _defaultCharacterDialog.Add("Guard", new string[] { "" });
-        _defaultCharacterDialog.Add("Shopaholic", new string[] { "" });
+        DefaultCharacterDialog.Add("Fisherman", new string[] { "Fisherman: Go away, kid." });
+        DefaultCharacterDialog.Add("Gardener", new string[] { "Gardener: ... *singsong* La di da di diiiii..." });
+        DefaultCharacterDialog.Add("Guard", new string[] { "Guard: All is well, son." });
+        DefaultCharacterDialog.Add("Shopaholic", new string[] { "Shopaholic: What am I going to do now..." });
+        DefaultCharacterDialog.Add("Hiro", new string[] { "Hiro: Hey, buddy." });
     }
 
     public static bool StartQuest1()
@@ -64,10 +68,8 @@ public static class GameData
             "Hiro: Alright, fine. Why don't you hang out around town while I'm gone.",
         };
 
-
-        CurrentQuest = new Quest(Quest1Name, 0, 4);
+        CurrentQuest = new Quest(Quest1Name, 0, 1);
         Quests.Add(CurrentQuest);
-        OnQuestStarted.Invoke(CurrentQuest);
         OnDialogOpen.Invoke(introTextString);
 
         CurrentQuest.customCharacterDialogs.Add("Fisherman", new string[]{
@@ -117,6 +119,10 @@ public static class GameData
         });
         CurrentQuest.charactersSpokenTo.Add("Shopaholic", false);
 
+        CurrentQuest.customCharacterDialogs.Add("Hiro", new string[] {
+            "Hiro: Hey, I can't talk right now...*sigh*"
+        });
+
         return true;
     }
 
@@ -126,6 +132,7 @@ public static class GameData
         OnQuestUpdated.Invoke(CurrentQuest);
         if (CurrentQuest.progress == CurrentQuest.success)
         {
+            Debug.Log("QUEST COMPLETED!");
             CurrentQuest.active = false;
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
@@ -135,6 +142,14 @@ public static class GameData
 
     public static void HandleDialogClosed()
     {
+        if(CurrentQuest != null && CurrentQuest.active == false)
+        {
+            Debug.Log($"SHARED REFERENCE: {Quests[0].active}");
+            CurrentQuest.active = true;
+            Debug.Log($"SHARED REFERENCE: {Quests[0].active}");
+            OnQuestStarted.Invoke(CurrentQuest);
+        }
+        CurrentActiveDialogCharacter = null;
         DialogOpen = false;
     }
 
@@ -143,13 +158,13 @@ public static class GameData
         DialogOpen = true;
     }
 
-
     public static void StartCharacterDialog(string characterName)
     {
         string[] dialog;
+        CurrentActiveDialogCharacter = characterName;
         if (CurrentQuest == null)
         {
-            dialog = CurrentQuest.customCharacterDialogs[characterName];
+            dialog = DefaultCharacterDialog[characterName];
             OnDialogOpen.Invoke(dialog);
         }
         else
@@ -158,8 +173,9 @@ public static class GameData
 
             if (hasDialog)
             {
-                bool spokeToThisCharacter = CurrentQuest.charactersSpokenTo[characterName];
-                if (!spokeToThisCharacter && CurrentQuest.name == Quest1Name)
+                bool spokeToThisCharacter;
+                bool exists = CurrentQuest.charactersSpokenTo.TryGetValue(characterName, out spokeToThisCharacter);
+                if (exists && !spokeToThisCharacter && CurrentQuest.name == Quest1Name)
                 {
                     CurrentQuest.charactersSpokenTo[characterName] = true;
                     UpdateQuest1Progress();
@@ -168,10 +184,9 @@ public static class GameData
             }
             else
             {
-                dialog = CurrentQuest.customCharacterDialogs[characterName];
+                dialog = DefaultCharacterDialog[characterName];
                 OnDialogOpen.Invoke(dialog);
             }
         }
-
     }
 }

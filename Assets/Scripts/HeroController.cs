@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroController : MonoBehaviour
@@ -10,15 +9,24 @@ public class HeroController : MonoBehaviour
     CharacterController2D _characterController;
     [SerializeField]
     Transform[] _homeToMayorNavPoionts;
+    [SerializeField]
+    Transform[] _mayorToHomeNavPoints;
+    GameObject _displayChild;
 
     Transform[] _currentPath;
-    int currentPoint = 0;
+    int _currentPoint = 0;
     Transform _transform;
     string currentPathName = "";
 
     private void Start()
     {
         _transform = transform;
+        GameData.OnQuestComplete.AddListener(HandleQuestComplete);
+    }
+
+    private void OnDisable()
+    {
+        GameData.OnQuestComplete.RemoveListener(HandleQuestComplete);
     }
 
     // Update is called once per frame
@@ -30,33 +38,67 @@ public class HeroController : MonoBehaviour
 
     private void Update()
     {
-        if(_currentPath == null)
+        if (_currentPath == null)
         {
             return;
         }
 
-        if(Vector3.Distance(_transform.position, _currentPath[currentPoint].position) < 0.1)
+        if (GameData.DialogOpen && GameData.CurrentActiveDialogCharacter == gameObject.name)
         {
-            currentPoint++;
+            _animator.SetFloat("SpeedX", 0);
+            _animator.SetFloat("SpeedY", 0);
+            return;
         }
 
-        if (currentPoint >= _currentPath.Length)
+        if (_currentPoint >= _currentPath.Length)
         {
             _animator.SetFloat("SpeedX", 0);
             _animator.SetFloat("SpeedY", 0);
             _currentPath = null;
+            _currentPoint = 0;
 
             if (currentPathName == "HomeToMayor")
             {
                 currentPathName = "";
-                gameObject.SetActive(false);
+                _animator.gameObject.SetActive(false);
             }
             return;
         }
 
-        Vector3 input = _characterController.MoveTowards(_currentPath[currentPoint]);
+        Vector3 input = _characterController.MoveTowards(_currentPath[_currentPoint]);
 
         _animator.SetFloat("SpeedX", input.x);
         _animator.SetFloat("SpeedY", input.y);
+
+        if (Vector3.Distance(_transform.position, _currentPath[_currentPoint].position) < 0.1)
+        {
+            _currentPoint++;
+        }
+    }
+
+    void HandleQuestComplete(Quest quest)
+    {
+        if(quest.name == GameData.Quests[0].name)
+        {
+            StartCoroutine(ShowAfterAFewSeconds());
+        }
+    }
+
+    IEnumerator ShowAfterAFewSeconds()
+    {
+        yield return new WaitForSeconds(2f);
+
+        _animator.gameObject.SetActive(true);
+
+        GameData.CurrentActiveDialogCharacter = gameObject.name;
+        GameData.OnDialogOpen.Invoke(new string[] {
+            "Hiro: Hey, man! Meet me at the house, let's talk"
+        });
+        GameData.DefaultCharacterDialog[gameObject.name] = new string[] { "Hiro: Meet me at the house so we can talk" };
+
+        currentPathName = "MayorToHome";
+        _currentPath = _mayorToHomeNavPoints;
+
+        yield return null;
     }
 }
