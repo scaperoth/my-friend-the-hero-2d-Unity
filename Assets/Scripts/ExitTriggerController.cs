@@ -7,20 +7,29 @@ public class ExitTriggerController : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name != "Player")
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (collision.gameObject.name != "Player")
         {
             return;
         }
-        if(GameData.Quests.Count >= 2)
+
+        if (sceneName == "HomeTown")
         {
-            SceneManager.LoadScene("Forest");
-        }
-        else
-        {
-            GameData.OpenDialog(new string[]
+
+            if (GameData.Quests.Count >= 2)
             {
-                "You: I should wait and see what happens with Hiro before leaving."
-            });
+                SceneManager.LoadScene("Forest");
+            }
+            else
+            {
+                GameData.OpenDialog(new string[] {
+                    "You: I should wait and see what happens with Hiro before leaving."
+                });
+            }
+        }
+        else if (sceneName == "Forest")
+        {
+            SceneManager.LoadScene("HomeTown");
         }
     }
 
