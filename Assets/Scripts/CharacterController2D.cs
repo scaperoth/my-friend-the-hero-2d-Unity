@@ -44,6 +44,13 @@ public class CharacterController2D : MonoBehaviour
         return direction;
     }
 
+    public Vector3 MoveTowards(Vector3 target)
+    {
+        Vector3 direction = (target - transform.position).normalized;
+        Move(direction);
+        return direction;
+    }
+
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
