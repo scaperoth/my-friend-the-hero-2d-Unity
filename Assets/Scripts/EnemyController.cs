@@ -18,16 +18,48 @@ public class EnemyController : MonoBehaviour
         _startPosition = transform.position;
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(255, 0f, 0f, .2f);
+        Gizmos.DrawSphere(this.transform.position, 5f);
+    }
+
     private void Update()
     {
-        float movingTowardsDistance;
-        if (_movingTowardsTransform == null)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 5f, 6);
+        Debug.Log($"Hitting {colliders.Length} colliders with layer {LayerMask.LayerToName(6)}");
+        if (colliders.Length > 0)
+        {
+            Debug.Log($"COLLIDING WITH {colliders.Length} THINGS");
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider.CompareTag("Player") || collider.CompareTag("Hiro"))
+                {
+                    Transform collisionTransform = collider.transform;
+                    _movingTowardsTransform = collisionTransform;
+                    _movingTowardsTag = collider.tag;
+                    break;
+                }
+            }
+        }
+        else
         {
             _animator.SetFloat("SpeedX", 0);
             _animator.SetFloat("SpeedY", 0);
             _animator.SetBool("Attack", false);
         }
 
+        float movingTowardsDistance;
+        if (_movingTowardsTransform == null)
+        {
+            Debug.Log("TRANFORM IS NULL");
+            _animator.SetFloat("SpeedX", 0);
+            _animator.SetFloat("SpeedY", 0);
+            _animator.SetBool("Attack", false);
+            return;
+        }
+
+        Debug.Log($"_movingTowardsTransform: {_movingTowardsTransform}");
         movingTowardsDistance = Vector3.Distance(_movingTowardsTransform.position, transform.position);
 
 
@@ -46,37 +78,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player") || collision.CompareTag("Hiro"))
-        {
-            Transform collisionTransform = collision.transform;
-            if (Vector3.Distance(collisionTransform.position, transform.position) > 1f)
-            {
-                _movingTowardsTransform = collisionTransform;
-                _movingTowardsTag = collision.tag;
-                Vector3 input = _characterController.MoveTowards(collisionTransform);
-                _animator.SetFloat("SpeedX", input.x);
-                _animator.SetFloat("SpeedY", input.y);
-                return;
-            }
-        }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void CheckIfAttackhit()
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Hiro"))
+        float movingTowardsDistance = Vector3.Distance(_movingTowardsTransform.position, transform.position);
+        if (movingTowardsDistance < .5f)
         {
-            if (_movingTowardsTag == null)
-            {
-                return;
-            }
-
-            if (collision.CompareTag(_movingTowardsTag))
-            {
-                _movingTowardsTransform = null;
-                _movingTowardsTag = null;
-            }
+            HealthController healthController = _movingTowardsTransform.GetComponent<HealthController>();
+            healthController.TakeDamage(10);
         }
     }
 }
