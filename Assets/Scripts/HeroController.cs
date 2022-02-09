@@ -12,11 +12,14 @@ public class HeroController : MonoBehaviour
     Transform[] _homeToMayorNavPoionts;
     [SerializeField]
     Transform[] _mayorToHomeNavPoints;
+    [SerializeField]
+    Transform _playerTransform;
 
     Transform[] _currentPath;
     int _currentPoint = 0;
     Transform _transform;
     string currentPathName = "";
+    bool _following = false;
 
     private void Start()
     {
@@ -28,6 +31,21 @@ public class HeroController : MonoBehaviour
             _animator.SetFloat("SpeedX", 1);
             _animator.SetFloat("SpeedY", 0);
             _transform.localPosition = new Vector3(3.29f, -8.67f, 0);
+        }else if (SceneManager.GetActiveScene().name == "Forest")
+        {
+            _following = true;
+            string[] possibleIntroWords = new string[]
+            {
+                "Hiro: Woah, this place is pretty spooky",
+                "Hiro: I'm not so sure about this... ",
+                "Hiro: Do you think there's any way to do this wihout the creepy forest",
+                "Hiro: Why are we here again...?",
+            };
+            int index = Random.Range(0, possibleIntroWords.Length);
+            GameData.OpenDialog(new string[]
+            {
+                possibleIntroWords[index]
+            });
         }
     }
 
@@ -45,12 +63,19 @@ public class HeroController : MonoBehaviour
 
     private void Update()
     {
-        if (_currentPath == null)
+        if (_following && Vector3.Distance(_playerTransform.position, transform.position) > 2f)
+        {
+            Vector3 input = _characterController.MoveTowards(_playerTransform);
+            _animator.SetFloat("SpeedX", input.x);
+            _animator.SetFloat("SpeedY", input.y);
+            return;
+        }
+        else if (_currentPath == null)
         {
             _animator.SetFloat("SpeedX", 0);
             _animator.SetFloat("SpeedY", 0);
             return;
-        }
+        } 
 
         if (GameData.DialogOpen && GameData.CurrentActiveDialogCharacter == gameObject.name)
         {
@@ -79,10 +104,10 @@ public class HeroController : MonoBehaviour
             return;
         }
 
-        Vector3 input = _characterController.MoveTowards(_currentPath[_currentPoint]);
+        Vector3 pathInput = _characterController.MoveTowards(_currentPath[_currentPoint]);
 
-        _animator.SetFloat("SpeedX", input.x);
-        _animator.SetFloat("SpeedY", input.y);
+        _animator.SetFloat("SpeedX", pathInput.x);
+        _animator.SetFloat("SpeedY", pathInput.y);
 
         if (Vector3.Distance(_transform.position, _currentPath[_currentPoint].position) < 0.1f)
         {

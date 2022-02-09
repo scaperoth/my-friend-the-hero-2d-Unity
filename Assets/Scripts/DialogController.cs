@@ -14,7 +14,7 @@ public class DialogController : MonoBehaviour
     int _currentDialogIndex = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _dialogPanel.SetActive(false);
         GameData.OnDialogOpen.AddListener(OpenDialog);

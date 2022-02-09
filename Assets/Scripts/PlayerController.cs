@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject _interactionIndicator;
 
-    bool _showInteraction;
+    bool _allowInteraction;
     string interactingWith;
 
     private void Start()
@@ -36,7 +36,12 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("SpeedX", input.x);
         _animator.SetFloat("SpeedY", input.y);
 
-        if(_showInteraction && Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
+        {
+            GameData.OpenDialog(new string[] {"Hey, buddy...", "Really...?" });
+        }
+
+        if(_allowInteraction && Input.GetButtonDown("Jump"))
         {
             GameData.StartCharacterDialog(interactingWith);
         }
@@ -44,20 +49,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Interactable"))
+        GameObject _collisionGO = collision.gameObject;
+        if (_collisionGO.CompareTag("Interactable"))
         {
             interactingWith = collision.gameObject.name;
-            _showInteraction = true;
+            _allowInteraction = true;
             _interactionIndicator.SetActive(true);
+        }else if (_collisionGO.CompareTag("Hiro"))
+        {
+            interactingWith = collision.gameObject.name;
+            _allowInteraction = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Interactable"))
+        GameObject _collisionGO = collision.gameObject;
+        if (_collisionGO.CompareTag("Interactable"))
         {
-            _showInteraction = false;
+            _allowInteraction = false;
+            _interactionIndicator.SetActive(false);
+        }
+        else if (_collisionGO.CompareTag("Hiro"))
+        {
+            interactingWith = collision.gameObject.name;
+            _allowInteraction = false;
             _interactionIndicator.SetActive(false);
         }
     }

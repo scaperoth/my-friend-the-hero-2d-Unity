@@ -150,6 +150,7 @@ public static class GameData
 
     public static void OpenDialog(string[] text)
     {
+        Debug.Log($"Opening Dialog with text: {text[0]}");
         DialogOpen = true;
         OnDialogOpen.Invoke(text);
     }
