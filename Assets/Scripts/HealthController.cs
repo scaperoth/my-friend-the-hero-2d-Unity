@@ -23,7 +23,7 @@ public class HealthController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _currentHealth -= Mathf.Clamp(damage, 0, _startingHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _startingHealth);
         OnDamageTaken.Invoke(damage);
         OnHealthChanged.Invoke(_currentHealth, _startingHealth);
 

@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class HealthBarController : MonoBehaviour
 {
     [SerializeField]
-    RectTransform _healthImageTransform;
+    Image _healthBarImage;
 
     public void UpdateHealth(int newHealth, int startingHealth)
     {
-        float healthChange = 1 - (newHealth / startingHealth);
-        _healthImageTransform.anchoredPosition = new Vector2(healthChange, _healthImageTransform.anchoredPosition.y);
+        float healthChange = Mathf.Clamp(newHealth/(float)startingHealth, 0f, 1f);
+        _healthBarImage.fillAmount = healthChange;
     }
 }
