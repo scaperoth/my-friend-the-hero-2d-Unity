@@ -14,6 +14,8 @@ public class LevelController : MonoBehaviour
     TextMeshProUGUI _questProgress;
 
     public UnityEvent OnQuest1Started;
+    public UnityEvent<Quest> OnQuestCompleted;
+    public UnityEvent OnGameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +28,16 @@ public class LevelController : MonoBehaviour
         GameData.OnQuestComplete.AddListener(HideQuestBox);
         GameData.OnQuestUpdated.AddListener(UpdateQuest);
         GameData.OnQuestStarted.AddListener(StartQuest);
+        GameData.OnQuestComplete.AddListener(HandleQuestCompleted);
 
         if (GameData.Quests.Count == 0 && SceneManager.GetActiveScene().name == "HomeTown")
         {
             GameData.StartQuest1();
+        }
+
+        if (GameData.CurrentQuest.name == GameData.Quest3Name && SceneManager.GetActiveScene().name == "HomeTown")
+        {
+            OnGameOver.Invoke();
         }
     }
     private void OnDisable()
@@ -73,6 +81,11 @@ public class LevelController : MonoBehaviour
     void UpdateQuest(Quest quest)
     {
         _questProgress.text = $"Progress: {quest.progress}/{quest.success}";
+    }
+
+    void HandleQuestCompleted(Quest quest)
+    {
+        OnQuestCompleted.Invoke(quest);
     }
 
     IEnumerator EaseInQuestBox()

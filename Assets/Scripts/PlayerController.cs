@@ -75,6 +75,14 @@ public class PlayerController : MonoBehaviour
         {
             interactingWith = collision.gameObject.name;
             _allowInteraction = true;
+            if (GameData.CurrentQuest != null && GameData.CurrentQuest.customCharacterDialogs.ContainsKey("Hiro"))
+            {
+                _interactionIndicator.SetActive(true);
+            }
+            else
+            {
+                _interactionIndicator.SetActive(false);
+            }
         }
     }
 
