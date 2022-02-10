@@ -311,7 +311,7 @@ MonoBehaviour:
   - {fileID: 9179274017371664647}
   - {fileID: 4788900775835336557}
   m_Bounds:
-    m_Center: {x: -0.000000059604645, y: -0.000024169683, z: 0}
+    m_Center: {x: 0, y: -0.000024139881, z: 0}
     m_Extent: {x: 0.15625003, y: 0.1875242, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -539,8 +539,8 @@ MonoBehaviour:
   - {fileID: 7868088382339345857}
   - {fileID: 5551706139462825737}
   m_Bounds:
-    m_Center: {x: 0.000000044703484, y: -0.0044686943, z: 0}
-    m_Extent: {x: 0.18749997, y: 0.19865623, z: 0}
+    m_Center: {x: -0.017908096, y: -0.027058855, z: 0}
+    m_Extent: {x: 0.21841903, y: 0.2048051, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &2501754639734992859
@@ -850,8 +850,8 @@ MonoBehaviour:
   - {fileID: 689198130873727712}
   - {fileID: 3343358869433673045}
   m_Bounds:
-    m_Center: {x: 0.000000014901161, y: -0.00000008940697, z: 0}
-    m_Extent: {x: 0.14062503, y: 0.17187506, z: 0}
+    m_Center: {x: -0.06573683, y: 0.031673923, z: 0}
+    m_Extent: {x: 0.20636183, y: 0.21861345, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5474751894995807459
@@ -1064,8 +1064,8 @@ MonoBehaviour:
   - {fileID: 8433034840213402436}
   - {fileID: 5340712597786732872}
   m_Bounds:
-    m_Center: {x: 0.0013906136, y: 0.000000044703484, z: 0}
-    m_Extent: {x: 0.092359394, y: 0.18750004, z: 0}
+    m_Center: {x: -0.10743904, y: 0.102823146, z: 0}
+    m_Extent: {x: 0.19012702, y: 0.10884631, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6153314794993079084
@@ -1078,6 +1078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 301147213974029945}
   - component: {fileID: 4705063824608518072}
+  - component: {fileID: 6779899958010684671}
   m_Layer: 0
   m_Name: AnimationParent
   m_TagString: Untagged
@@ -1130,6 +1131,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6779899958010684671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6153314794993079084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f737c74cb6a47429601355c5768734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnAttackEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1071441380740529766}
+        m_TargetAssemblyTypeName: HeroController, Assembly-CSharp
+        m_MethodName: CheckIfAttackhit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6977531400527791357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,7 +1260,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 6
   m_Sprite: {fileID: -1244980950270965831, guid: 8f6c497c1ee1b4c1d94b614d7b5f7da3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1262,8 +1290,8 @@ MonoBehaviour:
   - {fileID: 4788900775835336557}
   - {fileID: 1176671595553906701}
   m_Bounds:
-    m_Center: {x: -0.000000044703484, y: -0.004406154, z: 0}
-    m_Extent: {x: 0.09375002, y: 0.18309358, z: 0}
+    m_Center: {x: -0.18686432, y: 0.09874928, z: 0}
+    m_Extent: {x: 0.17665112, y: 0.11228663, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &7559251805725767840

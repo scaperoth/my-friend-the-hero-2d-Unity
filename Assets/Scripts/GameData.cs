@@ -30,8 +30,8 @@ public static class GameData
     public static string PreviousScene;
 
     // quests
-    static string Quest1Name = "Talk to people in town";
-    static string Quest2Name = "Kill the forest monsters";
+    public static string Quest1Name = "Talk to people in town";
+    public static string Quest2Name = "Kill the forest monsters";
 
     public static Quest CurrentQuest;
     public static List<Quest> Quests = new List<Quest>();
@@ -155,6 +155,18 @@ public static class GameData
     }
 
     public static void UpdateQuest1Progress()
+    {
+        CurrentQuest.progress++;
+        OnQuestUpdated.Invoke(CurrentQuest);
+        if (CurrentQuest.progress == CurrentQuest.success)
+        {
+            CurrentQuest.active = false;
+            OnQuestComplete.Invoke(CurrentQuest);
+            CurrentQuest = null;
+        }
+    }
+
+    public static void UpdateQuest2Progress()
     {
         CurrentQuest.progress++;
         OnQuestUpdated.Invoke(CurrentQuest);

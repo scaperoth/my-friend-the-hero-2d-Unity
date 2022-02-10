@@ -8,21 +8,19 @@ public class EnemyController : MonoBehaviour
     Animator _animator;
     [SerializeField]
     CharacterController2D _characterController;
+    [SerializeField]
+    GameObject _enemyDeathPrefab;
     Vector3 _startPosition;
 
     string _movingTowardsTag;
     Transform _movingTowardsTransform;
     float _attackDistance = 1.5f;
+    [SerializeField]
+    int _attackDamage = 5;
 
     private void Start()
     {
         _startPosition = transform.position;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(255, 0f, 0f, .2f);
-        Gizmos.DrawSphere(this.transform.position, 5f);
     }
 
     private void Update()
@@ -39,7 +37,7 @@ public class EnemyController : MonoBehaviour
             {
                 if (collider.CompareTag("Player") || collider.CompareTag("Hiro"))
                 {
-                    
+
                     Transform collisionTransform = collider.transform;
                     float distance = Vector3.Distance(collisionTransform.position, transform.position);
                     if (distance < minDistance)
@@ -91,16 +89,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
     public void CheckIfAttackhit()
     {
-        Debug.Log("CHECKING IF ATTACK HIT");
         float movingTowardsDistance = Vector3.Distance(_movingTowardsTransform.position, transform.position);
         if (movingTowardsDistance <= _attackDistance)
         {
-            Debug.Log("ATTACK DID HIT");
             HealthController healthController = _movingTowardsTransform.GetComponent<HealthController>();
-            healthController.TakeDamage(10);
+            healthController.TakeDamage(_attackDamage);
         }
     }
+
+    public void TriggerDeath()
+    {
+        _animator.SetFloat("SpeedX", 0);
+        _animator.SetFloat("SpeedY", 0);
+        gameObject.SetActive(false);
+        if (GameData.CurrentQuest?.name == GameData.Quest2Name)
+        {
+            GameData.UpdateQuest2Progress();
+        }
+        GameObject deathAnimationGO = Instantiate(_enemyDeathPrefab, transform.parent);
+        deathAnimationGO.transform.position = transform.position;
+        Destroy(gameObject);
+    }
+
 }

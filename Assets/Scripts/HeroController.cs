@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 public class HeroController : MonoBehaviour
 {
     [SerializeField]
+    public int _attackDamage = 1;
+
+    [SerializeField]
     Animator _animator;
     [SerializeField]
     CharacterController2D _characterController;
@@ -20,18 +23,22 @@ public class HeroController : MonoBehaviour
     Transform _transform;
     string currentPathName = "";
     bool _following = false;
+    float _attackDistance = .5f;
+    Transform _enemyTransform;
 
     private void Start()
     {
         _transform = transform;
         GameData.OnQuestComplete.AddListener(HandleQuestComplete);
+        GameData.OnQuestStarted.AddListener(HandleQuestStarted);
 
         if (SceneManager.GetActiveScene().name == "HomeTown" && GameData.PreviousScene == null)
         {
             _animator.SetFloat("SpeedX", 1);
             _animator.SetFloat("SpeedY", 0);
             _transform.localPosition = new Vector3(3.29f, -8.67f, 0);
-        }else if (SceneManager.GetActiveScene().name == "Forest")
+        }
+        else if (SceneManager.GetActiveScene().name == "Forest")
         {
             _following = true;
             string[] possibleIntroWords = new string[]
@@ -63,6 +70,21 @@ public class HeroController : MonoBehaviour
 
     private void Update()
     {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _attackDistance, LayerMask.GetMask("Enemy"));
+        if (colliders.Length > 0)
+        {
+            foreach (Collider2D collider in colliders)
+            {
+                _animator.SetFloat("SpeedX", 0);
+                _animator.SetFloat("SpeedY", 0);
+                _animator.SetBool("Attack", true);
+                _enemyTransform = collider.transform;
+                return;
+            }
+        }
+        _enemyTransform = null;
+        _animator.SetBool("Attack", false);
+
         if (_following && Vector3.Distance(_playerTransform.position, transform.position) > 2f)
         {
             Vector3 input = _characterController.MoveTowards(_playerTransform);
@@ -75,7 +97,7 @@ public class HeroController : MonoBehaviour
             _animator.SetFloat("SpeedX", 0);
             _animator.SetFloat("SpeedY", 0);
             return;
-        } 
+        }
 
         if (GameData.DialogOpen && GameData.CurrentActiveDialogCharacter == gameObject.name)
         {
@@ -123,6 +145,14 @@ public class HeroController : MonoBehaviour
         }
     }
 
+    void HandleQuestStarted(Quest quest)
+    {
+        if(quest.name == GameData.Quest2Name)
+        {
+            _following = true;
+        }
+    }
+
     IEnumerator ShowAfterAFewSeconds()
     {
         while (GameData.DialogOpen)
@@ -144,5 +174,16 @@ public class HeroController : MonoBehaviour
         _currentPath = _mayorToHomeNavPoints;
 
         yield return null;
+    }
+
+    public void CheckIfAttackhit()
+    {
+        if (_enemyTransform == null)
+        {
+            return;
+        }
+
+        HealthController healthController = _enemyTransform.GetComponent<HealthController>();
+        healthController.TakeDamage(_attackDamage);
     }
 }

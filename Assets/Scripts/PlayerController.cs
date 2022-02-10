@@ -13,9 +13,14 @@ public class PlayerController : MonoBehaviour
     bool _allowInteraction;
     string interactingWith;
 
+    int _attackDamage = 5;
+    float _lastAttackTime = 0f;
+    float _attackDuration = .8f;
+    float _attackDistance = 1f;
+
     private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "HomeTown" && GameData.PreviousScene == null)
+        if (SceneManager.GetActiveScene().name == "HomeTown" && GameData.PreviousScene == null)
         {
             transform.localPosition = new Vector3(5.29f, -8.87f, 0);
         }
@@ -31,17 +36,32 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (_lastAttackTime + _attackDuration > Time.time)
+        {
+            return;
+        }
+
+        if (_lastAttackTime + _attackDuration < Time.time && Input.GetButtonDown("Jump"))
+        {
+            _animator.SetFloat("SpeedX", 0);
+            _animator.SetFloat("SpeedY", 0);
+            _animator.SetTrigger("Attack");
+            _lastAttackTime = Time.time;
+            return;
+        }
+
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);
 
         _animator.SetFloat("SpeedX", input.x);
         _animator.SetFloat("SpeedY", input.y);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Fire2"))
         {
-            GameData.OpenDialog(new string[] {"Hey, buddy...", "Really...?" });
+            GameData.OpenDialog(new string[] { "Hey, buddy...", "Really...?" });
         }
 
-        if(_allowInteraction && Input.GetButtonDown("Jump"))
+
+        if (_allowInteraction && Input.GetButtonDown("Jump"))
         {
             GameData.StartCharacterDialog(interactingWith);
         }
@@ -55,7 +75,8 @@ public class PlayerController : MonoBehaviour
             interactingWith = collision.gameObject.name;
             _allowInteraction = true;
             _interactionIndicator.SetActive(true);
-        }else if (_collisionGO.CompareTag("Hiro"))
+        }
+        else if (_collisionGO.CompareTag("Hiro"))
         {
             interactingWith = collision.gameObject.name;
             _allowInteraction = true;
@@ -76,6 +97,16 @@ public class PlayerController : MonoBehaviour
             interactingWith = collision.gameObject.name;
             _allowInteraction = false;
             _interactionIndicator.SetActive(false);
+        }
+    }
+
+    public void CheckIfAttackHit()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackDistance, LayerMask.GetMask("Enemy"));
+        foreach(Collider2D hit in hits) {
+            GameObject hitGo = hit.gameObject;
+            HealthController healthController = hitGo.GetComponent<HealthController>();
+            healthController.TakeDamage(_attackDamage);
         }
     }
 }

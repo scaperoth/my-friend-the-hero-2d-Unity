@@ -1392,6 +1392,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1071441380740529766, guid: 43b78476bd95e4c4794535d65cd15b45,
         type: 3}
+      propertyPath: _playerTransform
+      value: 
+      objectReference: {fileID: 3204919529537229907}
+    - target: {fileID: 1071441380740529766, guid: 43b78476bd95e4c4794535d65cd15b45,
+        type: 3}
       propertyPath: _mayorToHomeNavPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2940,7 +2945,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.622489, y: -2.5656414, z: -10}
+  m_LocalPosition: {x: 10.194369, y: -2.534308, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
