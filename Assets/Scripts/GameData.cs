@@ -32,6 +32,7 @@ public static class GameData
     // quests
     public static string Quest1Name = "Talk to people in town";
     public static string Quest2Name = "Kill the forest monsters";
+    public static string Quest3Name = "Take Hiro home to the Mayor";
 
     public static Quest CurrentQuest;
     public static List<Quest> Quests = new List<Quest>();
@@ -148,6 +149,22 @@ public static class GameData
         return true;
     }
 
+    public static bool StartQuest3()
+    {
+        string[] introTextString = new string[]
+        {
+            "Hiro: I guess we should go home to and tell everyone we did it.",
+            "You: You mean YOU did it. *wink*",
+        };
+
+        CurrentQuest = new Quest(Quest3Name, 0, 0);
+        Quests.Add(CurrentQuest);
+        CurrentQuest.customCharacterDialogs.Add("Hiro", introTextString);
+        OnQuestStarted.Invoke(CurrentQuest);
+        CurrentQuest.active = true;
+        return true;
+    }
+
     public static void OpenDialog(string[] text)
     {
         DialogOpen = true;
@@ -175,6 +192,7 @@ public static class GameData
             CurrentQuest.active = false;
             OnQuestComplete.Invoke(CurrentQuest);
             CurrentQuest = null;
+            StartQuest3();
         }
     }
 

@@ -101,7 +101,7 @@ MonoBehaviour:
   - {fileID: 96460434636271771}
   - {fileID: 1111785284809287743}
   m_Bounds:
-    m_Center: {x: 0.000000059604645, y: -0.000109404325, z: 0}
+    m_Center: {x: -0.00000017881393, y: -0.00010949373, z: 0}
     m_Extent: {x: 0.28124994, y: 0.2638281, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -207,8 +207,8 @@ MonoBehaviour:
   - {fileID: 9207400836973078851}
   - {fileID: 4387754698919769747}
   m_Bounds:
-    m_Center: {x: 0.00000011920929, y: 0.000000037252903, z: 0}
-    m_Extent: {x: 0.07812499, y: 0.125, z: 0}
+    m_Center: {x: 0.0000019147992, y: 0, z: 0}
+    m_Extent: {x: 0.078125, y: 0.12499999, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &2600721519389006681
@@ -853,8 +853,8 @@ MonoBehaviour:
   - {fileID: 4387754698919769747}
   - {fileID: 8219539625734154827}
   m_Bounds:
-    m_Center: {x: 0.000000007450581, y: 0.000000044703484, z: 0}
-    m_Extent: {x: 0.109375015, y: 0.125, z: 0}
+    m_Center: {x: 0.0000009611249, y: 0, z: 0}
+    m_Extent: {x: 0.10937597, y: 0.125, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5153862395053747509
@@ -1135,8 +1135,8 @@ MonoBehaviour:
   - {fileID: 96460434636271771}
   - {fileID: 3371910511119065040}
   m_Bounds:
-    m_Center: {x: 0.000000029802322, y: -0.000000014901161, z: 0}
-    m_Extent: {x: 0.10937498, y: 0.10937504, z: 0}
+    m_Center: {x: 0.0000019073486, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.109375, y: 0.10937511, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6635357208850347127
@@ -1362,8 +1362,8 @@ MonoBehaviour:
   - {fileID: 6071804003386929416}
   - {fileID: 1041288816082048408}
   m_Bounds:
-    m_Center: {x: 0.00000008195639, y: -0.000000029802322, z: 0}
-    m_Extent: {x: 0.10937506, y: 0.124999985, z: 0}
+    m_Center: {x: 0.000000014901161, y: -0.00000025331974, z: 0}
+    m_Extent: {x: 0.109375, y: 0.125, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &8977303297836497799
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   - {fileID: 1461710551989883736}
   - {fileID: 7329132250357265372}
   m_Bounds:
-    m_Center: {x: 0, y: 0.005468741, z: 0}
-    m_Extent: {x: 0.093750015, y: 0.13515627, z: 0}
+    m_Center: {x: 0, y: 0.0054685324, z: 0}
+    m_Extent: {x: 0.093750015, y: 0.13515624, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1

@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
 
     string _movingTowardsTag;
     Transform _movingTowardsTransform;
-    float _attackDistance = 1.5f;
+    float _attackDistance = 1f;
     [SerializeField]
     int _attackDamage = 5;
 

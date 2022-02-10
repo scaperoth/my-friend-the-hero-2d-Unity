@@ -52,7 +52,15 @@ public class LevelController : MonoBehaviour
     void ShowQuestBox(Quest quest)
     {
         _questTitle.text = $"Quest: {quest.name}";
-        _questProgress.text = $"Progress: {quest.progress}/{quest.success}";
+
+        if (quest.success > 0)
+        {
+            _questProgress.text = $"Progress: {quest.progress}/{quest.success}";
+        }
+        else
+        {
+            _questProgress.text = "";
+        }
         _questBox.SetActive(true);
         StartCoroutine(EaseInQuestBox());
     }

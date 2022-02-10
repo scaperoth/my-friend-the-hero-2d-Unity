@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (_lastAttackTime + _attackDuration < Time.time && Input.GetButtonDown("Jump"))
+        if (SceneManager.GetActiveScene().name != "HomeTown" && _allowInteraction && _lastAttackTime + _attackDuration < Time.time && Input.GetButtonDown("Jump"))
         {
             _animator.SetFloat("SpeedX", 0);
             _animator.SetFloat("SpeedY", 0);
@@ -55,13 +55,8 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("SpeedX", input.x);
         _animator.SetFloat("SpeedY", input.y);
 
-        if (Input.GetButtonDown("Fire2"))
-        {
-            GameData.OpenDialog(new string[] { "Hey, buddy...", "Really...?" });
-        }
 
-
-        if (_allowInteraction && Input.GetButtonDown("Jump"))
+        if (_allowInteraction && Input.GetButtonDown("Interact"))
         {
             GameData.StartCharacterDialog(interactingWith);
         }

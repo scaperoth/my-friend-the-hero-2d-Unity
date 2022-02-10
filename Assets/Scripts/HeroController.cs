@@ -53,6 +53,9 @@ public class HeroController : MonoBehaviour
             {
                 possibleIntroWords[index]
             });
+        }else if(SceneManager.GetActiveScene().name == "HomeTown" && GameData.CurrentQuest.name == GameData.Quest3Name)
+        {
+            _following = true;
         }
     }
 
@@ -139,7 +142,7 @@ public class HeroController : MonoBehaviour
 
     void HandleQuestComplete(Quest quest)
     {
-        if (quest.name == GameData.Quests[0].name)
+        if (quest.name == GameData.Quest1Name)
         {
             StartCoroutine(ShowAfterAFewSeconds());
         }
